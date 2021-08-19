@@ -27,8 +27,8 @@ public class SchoolController {
         @RequestParam(value = "direction",    defaultValue = "ASC") String direction,   //direcao
         @RequestParam(value = "orderBy",      defaultValue = "id") String orderBy,      //ordenacao
         @RequestParam(value = "name",      defaultValue = "") String name,              //nome
-        @RequestParam(value = "cnpj",      defaultValue = "") String cnpj,//descrição
-        @RequestParam(value = "maxCapacity",      defaultValue = "") Integer maxCapacity   //data de inicio
+        @RequestParam(value = "cnpj",      defaultValue = "") String cnpj,//cnpj
+        @RequestParam(value = "maxCapacity",      defaultValue = "") Integer maxCapacity   //capacidade maxima
     ){
         PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction),orderBy);
         Page<SchoolDTO> list = service.getSchools(pageRequest);
