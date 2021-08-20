@@ -8,6 +8,7 @@ import com.rest.api.entity.School;
 import com.rest.api.repository.SchoolRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
@@ -34,5 +35,13 @@ public class SchoolService {
         Optional<School> op = repo.findById(id);
         School school = op.orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,"School doesn't exsist"));
         return new SchoolDTO(school);
+    }
+
+    public void delete(long id){
+        try{
+            repo.deleteById(id);
+        }catch(EmptyResultDataAccessException e){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"School doesn's exist!");
+        }
     }
 }
