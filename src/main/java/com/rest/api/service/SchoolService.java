@@ -1,6 +1,7 @@
 package com.rest.api.service;
 
 import com.rest.api.dto.SchoolDTO;
+import com.rest.api.dto.SchoolInsertDTO;
 import com.rest.api.entity.School;
 import com.rest.api.repository.SchoolRepository;
 
@@ -17,5 +18,11 @@ public class SchoolService {
     public Page<SchoolDTO>getSchools(PageRequest pageRequest){
         Page<School> list = repo.find(pageRequest);
         return list.map(s-> new SchoolDTO(s));
+    }
+
+    public SchoolDTO insert(SchoolInsertDTO school){
+        School entity = new School(school);
+        entity = repo.save(entity);
+        return new SchoolDTO(entity);
     }
 }

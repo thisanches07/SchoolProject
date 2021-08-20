@@ -6,6 +6,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.rest.api.dto.SchoolInsertDTO;
+
 @Entity
 @Table(name="TB_SCHOOL")
 public class School {
@@ -15,6 +17,15 @@ public class School {
     private String name;
     private String cnpj;
     private Integer maxCapacity;
+
+    public School(){
+
+    }
+    public School(SchoolInsertDTO school){
+        this.name=school.getName();
+        this.cnpj=school.getCnpj();
+        this.maxCapacity=school.getMaxCapacity();
+    }
     public Long getId() {
         return id;
     }

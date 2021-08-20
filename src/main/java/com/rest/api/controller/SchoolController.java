@@ -1,6 +1,11 @@
 package com.rest.api.controller;
 
+import java.net.URI;
+
+import javax.validation.Valid;
+
 import com.rest.api.dto.SchoolDTO;
+import com.rest.api.dto.SchoolInsertDTO;
 import com.rest.api.service.SchoolService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,9 +14,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
 @RequestMapping("/schools")
@@ -34,4 +42,12 @@ public class SchoolController {
         Page<SchoolDTO> list = service.getSchools(pageRequest);
      return ResponseEntity.ok(list); 
     }
+
+    @PostMapping
+    public ResponseEntity<SchoolDTO> save(@Valid
+                                          @RequestBody SchoolInsertDTO schoolDTO ){
+    SchoolDTO school = service.insert(schoolDTO);
+    URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(school.getId()).toUri();
+    return ResponseEntity.created(uri).body(school);                                                         
+}
 }
