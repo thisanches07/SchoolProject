@@ -6,6 +6,7 @@ import javax.validation.Valid;
 
 import com.rest.api.dto.SchoolDTO;
 import com.rest.api.dto.SchoolInsertDTO;
+import com.rest.api.dto.SchoolUpdateDTO;
 import com.rest.api.service.SchoolService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -61,5 +63,12 @@ public class SchoolController {
     public ResponseEntity<SchoolDTO> remove(@PathVariable long id){
         service.delete(id);
         return ResponseEntity.noContent().build();
+    }
+    @PutMapping("{id}")
+    public ResponseEntity<SchoolDTO> update(@Valid @RequestBody SchoolUpdateDTO schoolUpdateDTO,
+                                                @PathVariable long id){
+        SchoolDTO school = service.update(schoolUpdateDTO,id);
+        return ResponseEntity.ok().body(school);
+
     }
 }

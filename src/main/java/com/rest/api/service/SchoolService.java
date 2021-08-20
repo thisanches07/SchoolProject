@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import com.rest.api.dto.SchoolDTO;
 import com.rest.api.dto.SchoolInsertDTO;
+import com.rest.api.dto.SchoolUpdateDTO;
 import com.rest.api.entity.School;
 import com.rest.api.repository.SchoolRepository;
 
@@ -42,6 +43,19 @@ public class SchoolService {
             repo.deleteById(id);
         }catch(EmptyResultDataAccessException e){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,"School doesn's exist!");
+        }
+    }
+    public SchoolDTO update(SchoolUpdateDTO schoolUpdateDTO, long id){
+        try{
+            School school = repo.getOne(id);
+            school.setName(schoolUpdateDTO.getName());
+            school.setCnpj(schoolUpdateDTO.getCnpj());
+            school.setMaxCapacity(schoolUpdateDTO.getMaxCapacity());
+            school = repo.save(school);
+            return new SchoolDTO(school);
+        }
+        catch(ResponseStatusException e){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"School not found");
         }
     }
 }
